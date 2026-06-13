@@ -14,6 +14,14 @@ class EnsureUserIsActive
         $user = $request->user();
 
         if (! $user || $user->status !== 'active') {
+            if ($request->expectsJson()) {
+                $user?->currentAccessToken()?->delete();
+
+                return response()->json([
+                    'message' => 'Your account is not active. Please contact club authority.',
+                ], 403);
+            }
+
             Auth::logout();
 
             $request->session()->invalidate();

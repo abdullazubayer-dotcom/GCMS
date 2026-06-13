@@ -13,6 +13,10 @@ class EnsureUserIsAdmin
         $user = $request->user();
 
         if (! $user || ! $user->hasRole(['super_admin', 'admin'])) {
+            if ($request->expectsJson()) {
+                return response()->json(['message' => 'Admin access is required.'], 403);
+            }
+
             abort(403, 'Only admins can access this page.');
         }
 

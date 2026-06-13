@@ -32,7 +32,7 @@ class NotificationService
             'message' => $data['message'],
             'status' => 'pending',
             'meta' => [
-                'sent_by' => auth()->id(),
+                'sent_by' => request()?->user()?->id ?? auth()->id(),
             ],
         ]);
 

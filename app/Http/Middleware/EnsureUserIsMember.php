@@ -13,6 +13,10 @@ class EnsureUserIsMember
         $user = $request->user();
 
         if (! $user || ! $user->hasRole('member')) {
+            if ($request->expectsJson()) {
+                return response()->json(['message' => 'Member access is required.'], 403);
+            }
+
             abort(403, 'Only members can access this page.');
         }
 

@@ -21,7 +21,7 @@ class ActivityLogger
         ?array $newValues = null,
     ): ActivityLog {
         return ActivityLog::create([
-            'user_id' => Auth::id(),
+            'user_id' => request()?->user()?->id ?? Auth::id(),
             'action' => $action,
             'module' => $module,
             'description' => $description,
